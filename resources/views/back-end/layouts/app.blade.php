@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name')."-AdminPage" }} @yield('title', '' )</title>
+    <title>{{ config('app.name')."- Admin Page" }} @yield('title', '' )</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -29,11 +29,15 @@
 
         <!-- Main Content -->
         <div id="content">
-            @include('back-end.includes._topbar')
+        @include('back-end.includes._topbar')
 
-            @yield('content')
+        <!-- Begin Page Content -->
+            <div class="container-fluid">
+                @yield('content')
 
 
+            </div>
+            <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
         @include('back-end.includes._footer')
@@ -64,7 +68,11 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="#"
+                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
