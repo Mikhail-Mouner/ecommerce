@@ -1,4 +1,5 @@
 <!-- JavaScript files-->
+<script src="{{ asset('back-end/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 
 <!-- Core plugin JavaScript-->
@@ -9,3 +10,7 @@
 
 <!-- Page level plugins -->
 <script src="{{ asset('back-end/vendor/chart.js/Chart.min.js') }}"></script>
+
+<script>
+    $("#alert-message").fadeTo(5000, 500).slideUp(500);
+</script>

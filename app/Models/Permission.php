@@ -26,6 +26,7 @@ class Permission extends EntrustPermission
     public static function tree($level = 1)
     {
         return static::with( implode( '.', array_fill( 0, $level, 'children' ) ) )
+            ->with( 'appearedChildren' )
             ->whereParent( 0 )
             ->whereAppear( 1 )
             ->whereSidebarLink( 1 )

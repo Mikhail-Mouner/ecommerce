@@ -6,11 +6,14 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Product extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, SearchableTrait;
 
     protected $fillable = [
         'name',
@@ -21,6 +24,12 @@ class Product extends Model
         'product_category_id',
         'featured',
         'status',
+    ];
+
+    protected $searchable = [
+        'columns' => [
+            'products.name' => 10,
+        ],
     ];
 
     public function sluggable()
@@ -39,12 +48,17 @@ class Product extends Model
 
     public function tags(): MorphToMany
     {
-        return $this->MorphToMany( Tag::class, 'taggable');
+        return $this->MorphToMany( Tag::class, 'taggable' );
     }
 
     public function media(): MorphMany
     {
         return $this->MorphMany( Media::class, 'mediable' );
+    }
+
+    public function firstMedia(): MorphOne
+    {
+        return $this->MorphOne( Media::class, 'mediable' )->orderBy( 'file_sort' );
     }
 
 }

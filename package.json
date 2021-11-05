@@ -20,5 +20,10 @@
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.11",
         "sass-loader": "^11.0.1"
+    },
+    "dependencies": {
+        "bootstrap-fileinput": "^5.2.6",
+        "select2": "^4.1.0-rc.0",
+        "summernote": "^0.8.20"
     }
 }

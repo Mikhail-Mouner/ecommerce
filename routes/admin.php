@@ -25,6 +25,10 @@ Route::namespace( 'Backend' )
                     '/product' => "ProductController",
                     '/tag' => "TagController",
                 ] );
+                Route::post( '/product_categories/{id}/delete',
+                    "ProductCategoriesController@removeImage" )->name( 'product_category.remove_image' );
+                Route::post( '/product/{id}/delete',
+                    "ProductController@removeImage" )->name( 'product.remove_image' );
             } );
 
     } );

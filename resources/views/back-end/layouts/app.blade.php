@@ -15,7 +15,7 @@
 
     @include('back-end.includes._header-script')
 
-    @yield('css','')
+    @yield('style','')
 </head>
 <body id="page-top">
 
