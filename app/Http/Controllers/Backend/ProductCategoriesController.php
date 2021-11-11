@@ -22,12 +22,12 @@ class ProductCategoriesController extends Controller
     public function index(ProductCategoryRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_product_categories, list_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
-        $order_by = $request->order_by ?? 'asc';
-        $paginate = $request->limit_by ?? 10;
+        $order_by = $request->order_by ?? config( 'general.general_order_by' );
+        $paginate = $request->limit_by ?? config( 'general.general_paginate' );
         $categories = ProductCategory::withCount( 'products' )
             ->when( $request->keyword, function ($q) use ($request) {
                 return $q->search( $request->keyword );
@@ -49,7 +49,7 @@ class ProductCategoriesController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
 
         $main_categories = ProductCategory::select( [ 'id', 'name' ] )->whereNull( 'parent_id' )->get();
@@ -68,7 +68,7 @@ class ProductCategoriesController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
 
         try {
@@ -109,8 +109,9 @@ class ProductCategoriesController extends Controller
     public function show(ProductCategory $productCategory)
     {
         if (!auth()->user()->ability( 'admin', 'display_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
+
         return view( 'back-end.product_categories.show', compact( 'productCategory' ) );
     }
 
@@ -124,7 +125,7 @@ class ProductCategoriesController extends Controller
     public function edit(ProductCategory $productCategory)
     {
         if (!auth()->user()->ability( 'admin', 'update_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
         $main_categories = ProductCategory::select( [ 'id', 'name' ] )
             ->whereNull( 'parent_id' )
@@ -146,7 +147,7 @@ class ProductCategoriesController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
         try {
 
@@ -190,7 +191,7 @@ class ProductCategoriesController extends Controller
     public function destroy(ProductCategory $productCategory)
     {
         if (!auth()->user()->ability( 'admin', 'delete_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
         $this->removeImage( $productCategory->id );
         $productCategory->delete();
@@ -202,7 +203,7 @@ class ProductCategoriesController extends Controller
     public function removeImage($id)
     {
         if (!auth()->user()->ability( 'admin', 'delete_product_categories' )) {
-            return redirect()->route('admin.index');
+            return redirect()->route( 'admin.index' );
         }
         $productCategory = ProductCategory::findOrFail( $id );
         $path = public_path( "/assets/product_categories/{$productCategory->cover}" );

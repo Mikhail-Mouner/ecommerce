@@ -30,8 +30,8 @@ class ProductController extends Controller
         }
 
         $sort_by = $request->sort_by ?? 'id';
-        $order_by = $request->order_by ?? 'asc';
-        $paginate = $request->limit_by ?? 10;
+        $order_by = $request->order_by ?? config('general.general_order_by');
+        $paginate = $request->limit_by ?? config('general.general_paginate');
         $products = Product::with( 'category:name,id' )
             ->with( 'tags:name' )
             ->with( 'firstMedia' )

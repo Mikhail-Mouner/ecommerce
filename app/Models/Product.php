@@ -5,6 +5,7 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -59,6 +60,11 @@ class Product extends Model
     public function firstMedia(): MorphOne
     {
         return $this->MorphOne( Media::class, 'mediable' )->orderBy( 'file_sort' );
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany( ProductReview::class );
     }
 
 }

@@ -78,7 +78,7 @@
                     <tr>
                         <th colspan="6">
                             <div class="float-right">
-                                {!! $tags->appends($request->all())->links() !!}
+                                {!! isset($request)?$tags->appends($request->all())->links():$tags->links() !!}
                             </div>
                         </th>
                     </tr>

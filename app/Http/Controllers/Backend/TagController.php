@@ -23,8 +23,8 @@ class TagController extends Controller
         }
 
         $sort_by = $request->sort_by ?? 'id';
-        $order_by = $request->order_by ?? 'asc';
-        $paginate = $request->limit_by ?? 10;
+        $order_by = $request->order_by ?? config('general.general_order_by');
+        $paginate = $request->limit_by ?? config('general.general_paginate');
         $tags = Tag::withCount( 'products' )
             ->when( $request->keyword, function ($q) use ($request) {
             return $q->search( $request->keyword );

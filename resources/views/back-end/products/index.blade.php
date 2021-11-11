@@ -114,7 +114,7 @@
                     <tr>
                         <th colspan="12">
                             <div class="float-right">
-                                {!! $products->links() !!}
+                                {!! isset($request)?$products->appends($request->all())->links():$products->links() !!}
                             </div>
                         </th>
                     </tr>

@@ -22,6 +22,8 @@ Route::namespace( 'Backend' )
                 Route::get( '/', "BackendController@index" )->name( 'index' );
                 Route::resources( [
                     '/product_categories' => "ProductCategoriesController",
+                    '/product_coupons' => "ProductCouponsController",
+                    '/product_reviews' => "ProductReviewController",
                     '/product' => "ProductController",
                     '/tag' => "TagController",
                 ] );
