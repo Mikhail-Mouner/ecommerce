@@ -2,6 +2,7 @@
 /public/hot
 /public/assets/product_categories
 /public/assets/products
+/public/assets/users
 /public/storage
 /storage/*.key
 /vendor

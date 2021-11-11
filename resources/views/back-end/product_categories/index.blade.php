@@ -87,7 +87,7 @@
                     <tr>
                         <th colspan="8">
                             <div class="float-right">
-                                {!! isset($request)?$categories->appends($request->all())->links():$categories->links() !!}
+                                {!! $categories->appends(request()->all())->links() !!}
                             </div>
                         </th>
                     </tr>

@@ -72,6 +72,7 @@ class ProductCategoriesController extends Controller
         }
 
         try {
+            /** Todo: Create Method to save Image */
 
             if ($request->has( 'cover' )) {
                 $img = $request->file( 'cover' );

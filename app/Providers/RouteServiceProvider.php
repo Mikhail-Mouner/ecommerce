@@ -52,6 +52,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix( 'admin' )
                 ->group( base_path( 'routes/admin.php' ) );
         } );
+
+        Route::resourceVerbs([
+            'create' => 'new',
+            'edit' => 'modify',
+        ]);
     }
 
     /**

@@ -9,10 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Mindscms\Entrust\Traits\EntrustUserWithPermissionsTrait;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, EntrustUserWithPermissionsTrait;
+    use HasApiTokens, HasFactory, Notifiable, EntrustUserWithPermissionsTrait, SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -50,6 +51,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $appends = ['full_name'];
+
+
+    protected $searchable = [
+        'columns' => [
+            'users.first_name' => 10,
+            'users.last_name' => 10,
+            'users.email' => 10,
+        ],
+    ];
 
     /**
      * @return string

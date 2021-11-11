@@ -99,7 +99,7 @@
                     <tr>
                         <th colspan="10">
                             <div class="float-right">
-                                {!! isset($request)?$reviews->appends($request->all())->links():$reviews->links() !!}
+                                {!! $reviews->appends(request()->all())->links() !!}
                             </div>
                         </th>
                     </tr>

@@ -93,7 +93,7 @@
                     <tr>
                         <th colspan="12">
                             <div class="float-right">
-                                {!! isset($request)?$coupons->appends($request->all())->links():$coupons->links() !!}
+                                {!! $coupons->appends(request()->all())->links() !!}
                             </div>
                         </th>
                     </tr>

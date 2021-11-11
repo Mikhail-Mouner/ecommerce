@@ -12,6 +12,15 @@ $(function () {
         showUpload: false,
         overwriteInitial: false
     });
+    $("#user-image-image").fileinput({
+        theme: "fas",
+        maxFileCount: 1,
+        allowedFileTypes: ['image'],
+        showCancel: true,
+        showRemove: false,
+        showUpload: false,
+        overwriteInitial: false
+    });
     $("#product-image").fileinput({
         theme: "fas",
         maxFileCount: 5,
