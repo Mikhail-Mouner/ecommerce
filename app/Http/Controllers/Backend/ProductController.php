@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'manage_products, list_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -53,7 +53,7 @@ class ProductController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $main_categories = ProductCategory::select( [
@@ -75,7 +75,7 @@ class ProductController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -132,7 +132,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         if (!auth()->user()->ability( 'admin', 'update_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $main_categories = ProductCategory::select( [
@@ -155,7 +155,7 @@ class ProductController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         try {
 
@@ -205,7 +205,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if (!auth()->user()->ability( 'admin', 'delete_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $product->media()->each( function ($medie) {
             $this->removeImage( $medie->id );
@@ -221,7 +221,7 @@ class ProductController extends Controller
     public function removeImage($id)
     {
         if (!auth()->user()->ability( 'admin', 'delete_products, update_products' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $media = Media::findOrFail( $id );
         $path = public_path( "/assets/products/{$media->file_name}" );

@@ -20,7 +20,7 @@ class ProductReviewController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'manage_product_reviews, list_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -49,7 +49,7 @@ class ProductReviewController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
 
@@ -67,7 +67,7 @@ class ProductReviewController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -93,7 +93,7 @@ class ProductReviewController extends Controller
     public function show(ProductReview $product_review)
     {
         if (!auth()->user()->ability( 'admin', 'display_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.product_reviews.show', compact( 'product_review' ) );
@@ -109,7 +109,7 @@ class ProductReviewController extends Controller
     public function edit(ProductReview $product_review)
     {
         if (!auth()->user()->ability( 'admin', 'update_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.product_reviews.edit', compact( 'product_review' ) );
@@ -126,7 +126,7 @@ class ProductReviewController extends Controller
     public function update(ProductReviewRequest $request, ProductReview $product_review)
     {
         if (!auth()->user()->ability( 'admin', 'update_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -153,7 +153,7 @@ class ProductReviewController extends Controller
     public function destroy(ProductReview $product_review)
     {
         if (!auth()->user()->ability( 'admin', 'delete_product_reviews' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $product_review->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );

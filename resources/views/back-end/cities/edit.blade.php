@@ -52,7 +52,7 @@
                         <select name="state_id" id="state_id" class="form-control select-2">
                             <option value="">---</option>
                             @forelse($states as $item)
-                                <option value="{{ $item->id }}" {{ old('state_id',$city->state_id) == $item->id ? 'selected' : NULL }}>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" {{ old('state_id',$city->state->id) == $item->id ? 'selected' : NULL }}>{{ $item->name }}</option>
                             @empty
                             @endforelse
                         </select>

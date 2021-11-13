@@ -3,40 +3,39 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\StateRequest;
+use App\Http\Requests\Backend\ShippingCompanyRequest;
 use App\Models\Country;
-use App\Models\State;
+use App\Models\ShippingCompany;
 use Illuminate\Http\Request;
 
-class StateController extends Controller
+class ShippingCompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param StateRequest  $request
+     * @param ShippingCompanyRequest  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(StateRequest $request)
+    public function index(ShippingCompanyRequest $request)
     {
-        if (!auth()->user()->ability( 'admin', 'manage_states, list_states' )) {
+        if (!auth()->user()->ability( 'admin', 'manage_shipping_companies, list_shipping_companies' )) {
             return redirect()->route( 'backend.index' );
         }
-
         $sort_by = $request->sort_by ?? 'id';
         $order_by = $request->order_by ?? config( 'general.general_order_by' );
         $paginate = $request->limit_by ?? config( 'general.general_paginate' );
-        $states = State::query()
-            ->withCount( 'cities' )
+        $shipping_companies = ShippingCompany::query()
+            ->withCount( 'countries' )
             ->when( $request->keyword, function ($q) use ($request) {
                 return $q->search( $request->keyword );
             } )->when( $request->status !== NULL, function ($q) use ($request) {
-                return $q->whereStatus( $request->status );
+                return $q->whereDefaultAddress( $request->status );
             } )
             ->orderBy( $sort_by, $order_by )
             ->paginate( $paginate );
 
-        return view( 'back-end.states.index', compact( 'states' ) );
+        return view( 'back-end.shipping_companies.index', compact( 'shipping_companies' ) );
     }
 
     /**
@@ -46,31 +45,32 @@ class StateController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->ability( 'admin', 'create_states' )) {
+        if (!auth()->user()->ability( 'admin', 'create_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
-        $countries = Country::all();
+        $countries = Country::whereStatus( TRUE )->get();
 
-        return view( 'back-end.states.create', compact( 'countries' ) );
+        return view( 'back-end.shipping_companies.create', compact( 'countries' ) );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StateRequest  $request
+     * @param ShippingCompanyRequest  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StateRequest $request)
+    public function store(ShippingCompanyRequest $request)
     {
 
-        if (!auth()->user()->ability( 'admin', 'create_states' )) {
+        if (!auth()->user()->ability( 'admin', 'create_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
 
         try {
 
-            State::create( $request->validated() );
+            $shipping_company = ShippingCompany::create( $request->validated() );
+            $shipping_company->countries()->attach( $request->country_id );
 
             session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Insert Data Successfully' ] );
         } catch (\Exception $exception) {
@@ -80,59 +80,60 @@ class StateController extends Controller
 
         }
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.shipping_company.index' );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param State  $state
+     * @param ShippingCompany  $shipping_company
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(State $state)
+    public function show(ShippingCompany $shipping_company)
     {
-        if (!auth()->user()->ability( 'admin', 'display_states' )) {
+        if (!auth()->user()->ability( 'admin', 'display_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
 
-        return view( 'back-end.states.show', compact( 'state' ) );
+        return view( 'back-end.shipping_companies.show', compact( 'shipping_company' ) );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param State  $state
+     * @param ShippingCompany  $shipping_company
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(State $state)
+    public function edit(ShippingCompany $shipping_company)
     {
-        if (!auth()->user()->ability( 'admin', 'update_states' )) {
+        if (!auth()->user()->ability( 'admin', 'update_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
-        $countries = Country::all();
+        $countries = Country::whereStatus( TRUE )->get();
 
-        return view( 'back-end.states.edit', compact( [ 'state', 'countries' ] ) );
+        return view( 'back-end.shipping_companies.edit', compact( [ 'shipping_company', 'countries' ] ) );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param StateRequest  $request
-     * @param State         $state
+     * @param ShippingCompanyRequest  $request
+     * @param ShippingCompany         $shipping_company
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(StateRequest $request, State $state)
+    public function update(ShippingCompanyRequest $request, ShippingCompany $shipping_company)
     {
 
-        if (!auth()->user()->ability( 'admin', 'update_states' )) {
+        if (!auth()->user()->ability( 'admin', 'update_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
         try {
 
-            $state->update( $request->validated() );
+            $shipping_company->update( $request->validated() );
+            $shipping_company->countries()->sync( $request->country_id );
 
             session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Update Data Successfully' ] );
         } catch (\Exception $exception) {
@@ -140,37 +141,28 @@ class StateController extends Controller
                 [ 'status' => 'danger', 'data' => "Something Goes Wrong" ] );
 
             return redirect()->back();
-
         }
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.shipping_company.index' );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param State  $state
+     * @param ShippingCompany  $shipping_company
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(State $state)
+    public function destroy(ShippingCompany $shipping_company)
     {
-        if (!auth()->user()->ability( 'admin', 'delete_states' )) {
+        if (!auth()->user()->ability( 'admin', 'delete_shipping_company' )) {
             return redirect()->route( 'backend.index' );
         }
-        $state->delete();
+        $shipping_company->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.shipping_company.index' );
     }
 
-    public function getStates()
-    {
-        $states = State::whereCountryId( \request()->input( 'country_id' ) )->orderBy( 'name' )->get( [
-            'id', 'name',
-        ] )->toArray();
-
-        return response()->json( $states );
-    }
 
 }

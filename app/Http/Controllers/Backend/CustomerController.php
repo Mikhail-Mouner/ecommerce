@@ -24,7 +24,7 @@ class CustomerController extends Controller
     public function index(CustomerRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_customers, list_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -52,7 +52,7 @@ class CustomerController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
 
@@ -70,7 +70,7 @@ class CustomerController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -118,7 +118,7 @@ class CustomerController extends Controller
     public function show(User $customer)
     {
         if (!auth()->user()->ability( 'admin', 'display_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.customers.show', compact( 'customer' ) );
@@ -134,7 +134,7 @@ class CustomerController extends Controller
     public function edit(User $customer)
     {
         if (!auth()->user()->ability( 'admin', 'update_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.customers.edit', compact( 'customer' ) );
@@ -152,7 +152,7 @@ class CustomerController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         try {
 
@@ -202,7 +202,7 @@ class CustomerController extends Controller
     public function destroy(User $customer)
     {
         if (!auth()->user()->ability( 'admin', 'delete_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $this->removeImage( $customer->id );
         $customer->delete();
@@ -214,7 +214,7 @@ class CustomerController extends Controller
     public function removeImage($id)
     {
         if (!auth()->user()->ability( 'admin', 'delete_customers' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $customer = User::findOrFail( $id );
         $path = public_path( "/assets/users/{$customer->user_image}" );
@@ -237,6 +237,20 @@ class CustomerController extends Controller
         } )->save( $path, 100 );
 
         return $file_name;
+    }
+
+    public function getCustomer()
+    {
+        $input = request()->input( 'query' );
+
+        $customer = User::query()
+            ->withRole( 'customer' )
+            ->when( $input != '', function ($q) use ($input) {
+                return $q->search( $input );
+            } )
+            ->get( [ 'id', 'first_name', 'last_name', 'email', 'phone' ] );
+
+        return response()->json( $customer );
     }
 
 }

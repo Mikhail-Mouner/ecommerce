@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get( '/', "BackendController@index" )->name( 'admin.index' );
 Route::namespace( 'Backend' )
     ->name( 'backend.' )
     ->group( function () {
@@ -31,11 +30,12 @@ Route::namespace( 'Backend' )
                     '/product' => "ProductController",
                     '/tag' => "TagController",
                     '/customer' => "CustomerController",
+                    '/customer_address' => "CustomerAddressController",
                     '/supervisor' => "SupervisorController",
                     '/country' => "CountryController",
                     '/state' => "StateController",
                     '/city' => "CityController",
-                    '/user-address' => "UserAddressController",
+                    '/shipping_company' => "ShippingCompanyController",
                 ] );
 
                 //To Remove Photo of Category & User {customer, supervisor} (Given id)
@@ -49,6 +49,17 @@ Route::namespace( 'Backend' )
                 //To Remove Photo of product (Given image id)
                 Route::post( '/product/{id}/delete',
                     "ProductController@removeImage" )->name( 'product.remove_image' );
+
+                //To Search Customer
+                Route::get( '/customer-search',
+                    "CustomerController@getCustomer" )->name( 'customer.get_customer' );
+
+                //To Get All States Belong To Country
+                Route::get( '/states/get_states',
+                    "StateController@getStates" )->name( 'states.get_states' );
+                //To Get All Cities Belong To States
+                Route::get( '/cities/get_cities',
+                    "CityController@getCities" )->name( 'cities.get_cities' );
             } );
 
     } );

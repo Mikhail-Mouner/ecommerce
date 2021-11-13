@@ -13,10 +13,24 @@ class CreateUserAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_addresses', function (Blueprint $table) {
+        Schema::create( 'user_addresses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId( 'user_id' )->constrained()->cascadeOnDelete();
+            $table->string( 'address_title' )->default( 'Main' );
+            $table->boolean( 'default_address' )->default( FALSE );
+            $table->string( 'first_name' )->nullable();
+            $table->string( 'last_name' )->nullable();
+            $table->string( 'email' )->nullable();
+            $table->string( 'mobile' )->nullable();
+            $table->string( 'address' )->nullable();
+            $table->string( 'address2' )->nullable();
+            $table->foreignId( 'country_id' )->constrained()->cascadeOnDelete();
+            $table->foreignId( 'state_id' )->constrained()->cascadeOnDelete();
+            $table->foreignId( 'city_id' )->constrained()->cascadeOnDelete();
+            $table->string( 'zip_code' )->nullable();
+            $table->string( 'po_box' )->nullable();
             $table->timestamps();
-        });
+        } );
     }
 
     /**
@@ -26,6 +40,7 @@ class CreateUserAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_addresses');
+        Schema::dropIfExists( 'user_addresses' );
     }
+
 }

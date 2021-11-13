@@ -19,7 +19,7 @@ class ProductCouponsController extends Controller
     public function index(ProductCouponRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_product_coupons, list_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -47,7 +47,7 @@ class ProductCouponsController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
 
@@ -64,7 +64,7 @@ class ProductCouponsController extends Controller
     public function store(ProductCouponRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'create_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -101,7 +101,7 @@ class ProductCouponsController extends Controller
     public function show(ProductCoupon $productCoupon)
     {
         if (!auth()->user()->ability( 'admin', 'display_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.product_coupons.show', compact( 'productCoupon' ) );
@@ -117,7 +117,7 @@ class ProductCouponsController extends Controller
     public function edit(ProductCoupon $productCoupon)
     {
         if (!auth()->user()->ability( 'admin', 'update_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.product_coupons.edit', compact( 'productCoupon' ) );
@@ -135,7 +135,7 @@ class ProductCouponsController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -173,7 +173,7 @@ class ProductCouponsController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'delete_product_coupons' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $productCoupon->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );

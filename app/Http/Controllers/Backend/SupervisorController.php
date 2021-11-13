@@ -25,7 +25,7 @@ class SupervisorController extends Controller
     public function index(SupervisorRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_supervisors, list_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -54,7 +54,7 @@ class SupervisorController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $permissions = Permission::where( 'parent', '!=', 0 )->get( [ 'id', 'display_name as name' ] );
 
@@ -72,7 +72,7 @@ class SupervisorController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -122,7 +122,7 @@ class SupervisorController extends Controller
     public function show(User $supervisor)
     {
         if (!auth()->user()->ability( 'admin', 'display_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.supervisors.show', compact( 'supervisor' ) );
@@ -138,7 +138,7 @@ class SupervisorController extends Controller
     public function edit(User $supervisor)
     {
         if (!auth()->user()->ability( 'admin', 'update_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $permissions = Permission::where( 'parent', '!=', 0 )->get( [ 'id', 'display_name as name' ] );
 
@@ -157,7 +157,7 @@ class SupervisorController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         try {
 
@@ -209,7 +209,7 @@ class SupervisorController extends Controller
     public function destroy(User $supervisor)
     {
         if (!auth()->user()->ability( 'admin', 'delete_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $this->removeImage( $supervisor->id );
         $supervisor->delete();
@@ -221,7 +221,7 @@ class SupervisorController extends Controller
     public function removeImage($id)
     {
         if (!auth()->user()->ability( 'admin', 'delete_supervisors' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $supervisor = User::findOrFail( $id );
         $path = public_path( "/assets/users/{$supervisor->user_image}" );

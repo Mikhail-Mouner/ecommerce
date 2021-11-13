@@ -19,7 +19,7 @@ class CountryController extends Controller
     public function index(CountryRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_countries, list_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -46,7 +46,7 @@ class CountryController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
 
@@ -64,7 +64,7 @@ class CountryController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -95,7 +95,7 @@ class CountryController extends Controller
     public function show(Country $country)
     {
         if (!auth()->user()->ability( 'admin', 'display_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.countries.show', compact( 'country' ) );
@@ -111,7 +111,7 @@ class CountryController extends Controller
     public function edit(Country $country)
     {
         if (!auth()->user()->ability( 'admin', 'update_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.countries.edit', compact( 'country' ) );
@@ -129,7 +129,7 @@ class CountryController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         try {
 
@@ -160,7 +160,7 @@ class CountryController extends Controller
     public function destroy(Country $country)
     {
         if (!auth()->user()->ability( 'admin', 'delete_countries' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $country->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );

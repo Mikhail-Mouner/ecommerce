@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class City extends Model
 {
     use HasFactory, SearchableTrait;
-    protected $fillable = [ 'name','state_id', 'status' ];
+    protected $fillable = [ 'name', 'state_id', 'status' ];
     public $timestamps = FALSE;
 
     protected $searchable = [
@@ -18,8 +19,15 @@ class City extends Model
             'cities.name' => 10,
         ],
     ];
-    public function states(): BelongsTo
+
+    public function state(): BelongsTo
     {
-        return $this->belongsTo( State::class,'state_id' );
+        return $this->belongsTo( State::class );
     }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany( UserAddress::class );
+    }
+
 }

@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = [ 'full_name' ];
 
 
     protected $searchable = [
@@ -66,11 +66,17 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getFullNameAttribute()
     {
-        return ucfirst($this->first_name) .' ' . ucfirst($this->last_name);
+        return ucfirst( $this->first_name ) . ' ' . ucfirst( $this->last_name );
     }
 
     public function reviews(): HasMany
     {
         return $this->hasMany( ProductReview::class );
     }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany( UserAddress::class );
+    }
+
 }

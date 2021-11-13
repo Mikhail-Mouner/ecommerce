@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
         $this->call( WorldSeeder::class );
         $this->call( WorldStatusSeeder::class );
 
+        $this->call( UserAddressSeeder::class );
+        $this->call( ShippingCompanySeeder::class );
+
     }
 
 }

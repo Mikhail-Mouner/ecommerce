@@ -19,7 +19,7 @@ class TagController extends Controller
     public function index(TagRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_tags, list_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
@@ -46,7 +46,7 @@ class TagController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.tags.create' );
@@ -86,7 +86,7 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         if (!auth()->user()->ability( 'admin', 'display_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.tag.show', compact( 'tag' ) );
@@ -102,7 +102,7 @@ class TagController extends Controller
     public function edit(Tag $tag)
     {
         if (!auth()->user()->ability( 'admin', 'update_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.tags.edit', compact( 'tag' ) );
@@ -120,7 +120,7 @@ class TagController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -151,7 +151,7 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         if (!auth()->user()->ability( 'admin', 'delete_tags' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $tag->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );

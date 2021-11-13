@@ -20,7 +20,7 @@ class CityController extends Controller
     public function index(CityRequest $request)
     {
         if (!auth()->user()->ability( 'admin', 'manage_cities, list_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $sort_by = $request->sort_by ?? 'id';
         $order_by = $request->order_by ?? config( 'general.general_order_by' );
@@ -45,7 +45,7 @@ class CityController extends Controller
     public function create()
     {
         if (!auth()->user()->ability( 'admin', 'create_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $states = State::all();
 
@@ -63,7 +63,7 @@ class CityController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'create_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         try {
@@ -91,7 +91,7 @@ class CityController extends Controller
     public function show(City $city)
     {
         if (!auth()->user()->ability( 'admin', 'display_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
 
         return view( 'back-end.cities.show', compact( 'city' ) );
@@ -107,7 +107,7 @@ class CityController extends Controller
     public function edit(City $city)
     {
         if (!auth()->user()->ability( 'admin', 'update_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $states = State::all();
 
@@ -126,7 +126,7 @@ class CityController extends Controller
     {
 
         if (!auth()->user()->ability( 'admin', 'update_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         try {
 
@@ -154,12 +154,19 @@ class CityController extends Controller
     public function destroy(City $city)
     {
         if (!auth()->user()->ability( 'admin', 'delete_cities' )) {
-            return redirect()->route( 'admin.index' );
+            return redirect()->route( 'backend.index' );
         }
         $city->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );
 
         return redirect()->route( 'backend.city.index' );
+    }
+
+    public function getCities()
+    {
+        $cities = City::whereStateId( \request()->input( 'state_id' ) )->orderBy( 'name' )->get( [ 'id', 'name' ] )->toArray();
+
+        return response()->json( $cities );
     }
 
 }

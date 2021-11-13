@@ -3,40 +3,41 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\StateRequest;
+use App\Http\Requests\Backend\CustomerAddressRequest;
 use App\Models\Country;
-use App\Models\State;
+use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
-class StateController extends Controller
+class CustomerAddressController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param StateRequest  $request
+     * @param CustomerAddressRequest  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(StateRequest $request)
+    public function index(CustomerAddressRequest $request)
     {
-        if (!auth()->user()->ability( 'admin', 'manage_states, list_states' )) {
+        if (!auth()->user()->ability( 'admin', 'manage_customer_addresses, list_customer_addresses' )) {
             return redirect()->route( 'backend.index' );
         }
 
         $sort_by = $request->sort_by ?? 'id';
         $order_by = $request->order_by ?? config( 'general.general_order_by' );
         $paginate = $request->limit_by ?? config( 'general.general_paginate' );
-        $states = State::query()
-            ->withCount( 'cities' )
+        $customer_addresses = UserAddress::query()
+            ->with( 'user:id,first_name,last_name' )
             ->when( $request->keyword, function ($q) use ($request) {
                 return $q->search( $request->keyword );
             } )->when( $request->status !== NULL, function ($q) use ($request) {
-                return $q->whereStatus( $request->status );
+                return $q->whereDefaultAddress( $request->status );
             } )
             ->orderBy( $sort_by, $order_by )
             ->paginate( $paginate );
 
-        return view( 'back-end.states.index', compact( 'states' ) );
+        return view( 'back-end.customer_addresses.index', compact( 'customer_addresses' ) );
     }
 
     /**
@@ -46,31 +47,31 @@ class StateController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->ability( 'admin', 'create_states' )) {
+        if (!auth()->user()->ability( 'admin', 'create_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
-        $countries = Country::all();
+        $countries = Country::whereStatus( TRUE )->get();
 
-        return view( 'back-end.states.create', compact( 'countries' ) );
+        return view( 'back-end.customer_addresses.create', compact( 'countries' ) );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StateRequest  $request
+     * @param CustomerAddressRequest  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StateRequest $request)
+    public function store(CustomerAddressRequest $request)
     {
 
-        if (!auth()->user()->ability( 'admin', 'create_states' )) {
+        if (!auth()->user()->ability( 'admin', 'create_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
 
         try {
 
-            State::create( $request->validated() );
+            UserAddress::create( $request->validated() );
 
             session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Insert Data Successfully' ] );
         } catch (\Exception $exception) {
@@ -80,59 +81,59 @@ class StateController extends Controller
 
         }
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.customer_address.index' );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param State  $state
+     * @param UserAddress  $customer_address
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(State $state)
+    public function show(UserAddress $customer_address)
     {
-        if (!auth()->user()->ability( 'admin', 'display_states' )) {
+        if (!auth()->user()->ability( 'admin', 'display_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
 
-        return view( 'back-end.states.show', compact( 'state' ) );
+        return view( 'back-end.customer_addresses.show', compact( 'customer_address' ) );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param State  $state
+     * @param UserAddress  $customer_address
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(State $state)
+    public function edit(UserAddress $customer_address)
     {
-        if (!auth()->user()->ability( 'admin', 'update_states' )) {
+        if (!auth()->user()->ability( 'admin', 'update_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
-        $countries = Country::all();
+        $countries = Country::whereStatus( TRUE )->get();
 
-        return view( 'back-end.states.edit', compact( [ 'state', 'countries' ] ) );
+        return view( 'back-end.customer_addresses.edit', compact( [ 'customer_address', 'countries' ] ) );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param StateRequest  $request
-     * @param State         $state
+     * @param CustomerAddressRequest  $request
+     * @param UserAddress             $customer_address
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(StateRequest $request, State $state)
+    public function update(CustomerAddressRequest $request, UserAddress $customer_address)
     {
 
-        if (!auth()->user()->ability( 'admin', 'update_states' )) {
+        if (!auth()->user()->ability( 'admin', 'update_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
         try {
 
-            $state->update( $request->validated() );
+            $customer_address->update( $request->validated() );
 
             session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Update Data Successfully' ] );
         } catch (\Exception $exception) {
@@ -143,34 +144,26 @@ class StateController extends Controller
 
         }
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.customer_address.index' );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param State  $state
+     * @param UserAddress  $customer_address
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(State $state)
+    public function destroy(UserAddress $customer_address)
     {
-        if (!auth()->user()->ability( 'admin', 'delete_states' )) {
+        if (!auth()->user()->ability( 'admin', 'delete_customer_address' )) {
             return redirect()->route( 'backend.index' );
         }
-        $state->delete();
+        $customer_address->delete();
         session()->flash( 'mssg', [ 'status' => 'success', 'data' => 'Remove Data Successfully' ] );
 
-        return redirect()->route( 'backend.state.index' );
+        return redirect()->route( 'backend.customer_address.index' );
     }
 
-    public function getStates()
-    {
-        $states = State::whereCountryId( \request()->input( 'country_id' ) )->orderBy( 'name' )->get( [
-            'id', 'name',
-        ] )->toArray();
-
-        return response()->json( $states );
-    }
 
 }

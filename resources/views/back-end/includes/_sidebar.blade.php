@@ -11,8 +11,6 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-    @if(auth()->user()->hasRole('admin')) 1 @endif
-    @if(auth()->user()->hasRole('supervisor')) 1 @endif
     @role(['admin'])
     @foreach($admin_side_menu as $menu)
         @if($menu->appearedChildren->count() == 0 )
@@ -26,7 +24,7 @@
         @else
             <li class="nav-item  {{ in_array($menu->parent_show,[getParentOf(),getParentShowOf()])?"active":NULL }}">
                 <!-- Nav Item - Pages Collapse Menu -->
-                <a class="nav-link {{ in_array($menu->parent_show,[getParentOf(),getParentShowOf()])?"collapsed":NULL }}"
+                <a class="nav-link {{ !in_array($menu->parent_show,[getParentOf(),getParentShowOf()])?"collapsed":NULL }}"
                    href="#" data-toggle="collapse" data-target="#collapse{{ $loop->iteration }}"
                    aria-expanded="{{ $menu->parent_show == getParentOf() && getParentOf() != '' ?"false":"true" }}"
                    aria-controls="collapse{{ $loop->iteration }}">
