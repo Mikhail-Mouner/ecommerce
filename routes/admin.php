@@ -21,6 +21,10 @@ Route::namespace( 'Backend' )
             ->group( function () {
                 //Dashboard Page
                 Route::get( '/', "BackendController@index" )->name( 'index' );
+                //Profile Page
+                Route::get( '/profile', "BackendController@accountSettings" )->name( 'account_settings' );
+                Route::put( '/profile', "BackendController@updateProfile" )->name( 'update_profile' );
+                Route::post( '/profile/remove-image', "BackendController@removeImage" )->name( 'profile.removeImage' );
 
                 //Resources Pages
                 Route::resources( [
