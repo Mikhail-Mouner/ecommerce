@@ -1,5 +1,6 @@
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{{--<link rel="stylesheet" href="{{ asset('front-end/vendor/bootstrap/css/bootstrap.min.css') }}">--}}
 <!-- Lightbox-->
 <link rel="stylesheet" href="{{ asset('front-end/vendor/lightbox2/css/lightbox.min.css') }}">
 <!-- Range slider-->
@@ -19,9 +20,16 @@
       href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
 <!-- theme stylesheet-->
 <link rel="stylesheet" href="{{ asset('front-end/css/style.default.css') }}" id="theme-stylesheet">
+<!-- livewire stylesheet-->
+<livewire:styles />
+
 <!-- Custom stylesheet - for your changes-->
 <link rel="stylesheet" href="{{ asset('front-end/css/custom.css') }}">
 
+
+{{--
 <!-- Tweaks for older IEs--><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+--}}
+

@@ -42,6 +42,28 @@ class Product extends Model
         ];
     }
 
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
+
+    public function scopeActiveCategory($query)
+    {
+        return $query->whereHas('category', function ($q){
+            return $q->active();
+        });
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->whereFeatured( TRUE );
+    }
+
+    public function scopeHasQty($query)
+    {
+        return $query->where( 'qty', '>', 0 );
+    }
+
     public function category()
     {
         return $this->belongsTo( ProductCategory::class, 'product_category_id', 'id' );

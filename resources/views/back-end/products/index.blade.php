@@ -49,7 +49,7 @@
                             <td>
                                 @if($item->firstMedia != NULL)
                                     <img src="{{ asset("/assets/products/{$item->firstMedia->file_name}") }}"
-                                         class="img-fluid rounded-top d-block m-auto" alt="{{ $item->name }}" width="50"
+                                         class="img-fluid rounded-top d-block m-auto" alt="{{ $item->slug }}" width="50"
                                          height="50">
                                 @endif
                             </td>

@@ -16,23 +16,23 @@
                     <li class="nav-item">
                         <!-- Link--><a class="nav-link" href="{{ route('frontend.shop') }}">Shop</a>
                     </li>
-                    <li class="nav-item">
-                        <!-- Link--><a class="nav-link" href="{{ route('frontend.details') }}">Product detail</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="pagesDropdown" href="#"
                            data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false">Pages</a>
-                        <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown"><a
-                                    class="dropdown-item border-0 transition-link" href="{{ route('frontend.index') }}">Homepage</a><a
-                                    class="dropdown-item border-0 transition-link" href="{{ route('frontend.shop') }}">Category</a><a
-                                    class="dropdown-item border-0 transition-link"
-                                    href="{{ route('frontend.details') }}">Product
-                                                                           detail</a><a
-                                    class="dropdown-item border-0 transition-link" href="{{ route('frontend.cart') }}">Shopping
-                                                                                                                       cart</a><a
-                                    class="dropdown-item border-0 transition-link"
-                                    href="{{ route('frontend.checkout') }}">Checkout</a>
+                        <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
+                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.index') }}">
+                                Homepage
+                            </a>
+                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.shop') }}">
+                                Category
+                            </a>
+                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.cart') }}">
+                                Shopping cart
+                            </a>
+                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.checkout') }}">
+                                Checkout
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -47,17 +47,7 @@
                             </a>
                         </li>
                     @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('frontend.cart') }}">
-                                <i class="fas fa-dolly-flatbed mr-1 text-gray"></i>Cart
-                                <small class="text-gray">(2)</small>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"> <i class="far fa-heart mr-1"></i>
-                                <small class="text-gray"> (0)</small>
-                            </a>
-                        </li>
+                        <livewire:frontend.carts />
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"

@@ -1,8 +1,9 @@
 /node_modules
 /public/hot
-/public/assets/product_categories
-/public/assets/products
-/public/assets/users
+/public/assets/product_categories/*
+/public/assets/products/*
+/public/assets/users/*
+/public/assets/sliders/*
 /public/storage
 /storage/*.key
 /vendor

@@ -1,9 +1,7 @@
 <!-- JavaScript files-->
-<script src="{{ asset('js/app.js') }}" defer></script>
-{{--
 <script src="{{ asset('front-end/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('front-end/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
---}}
 
 <script src="{{ asset('front-end/vendor/lightbox2/js/lightbox.min.js') }}"></script>
 <script src="{{ asset('front-end/vendor/nouislider/nouislider.min.js') }}"></script>
@@ -11,6 +9,10 @@
 <script src="{{ asset('front-end/vendor/owl.carousel2/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('front-end/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js') }}"></script>
 <script src="{{ asset('front-end/js/front.js') }}"></script>
+
+<livewire:scripts />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<x-livewire-alert::scripts />
 
 <script>
     // ------------------------------------------------------- //

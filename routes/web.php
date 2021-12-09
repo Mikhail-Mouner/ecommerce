@@ -6,9 +6,10 @@ Route::namespace( 'Frontend' )
     ->name( 'frontend.' )
     ->group( function () {
         Route::get( '/', "FrontendController@index" )->name( 'index' );
+        Route::get( '/product/{slug}', "FrontendController@product" )->name( 'product' );
         Route::get( '/cart', "FrontendController@cart" )->name( 'cart' );
-        Route::get( '/shop', "FrontendController@shop" )->name( 'shop' );
-        Route::get( '/details', "FrontendController@details" )->name( 'details' );
+        Route::get( '/wishlist', "FrontendController@wishlist" )->name( 'wishlist' );
+        Route::get( '/shop/{slug?}', "FrontendController@shop" )->name( 'shop' );
         Route::get( '/checkout', "FrontendController@checkout" )->name( 'checkout' );
     } );
 
@@ -16,5 +17,6 @@ Auth::routes( [ 'verify' => TRUE ] );
 
 Route::get( '/home', [ App\Http\Controllers\HomeController::class, 'index' ] )->name( 'home' );
 Route::get( '/test', function () {
+    return Cart::instance('wishlist')->content();
     return 'test';
 } );

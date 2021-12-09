@@ -33,6 +33,12 @@ class Tag extends Model
         ];
     }
 
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
+
+
     public function products(): MorphToMany
     {
         return $this->morphedByMany( Product::class, 'taggable' );

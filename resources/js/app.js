@@ -1,6 +1,11 @@
 require('./bootstrap');
 require('bootstrap-fileinput')
 require('select2/dist/js/select2.min')
+require('alpinejs')
+
+window.Alpine = Alpine
+
+Alpine.start()
 
 $(function () {
     $("#category-image").fileinput({

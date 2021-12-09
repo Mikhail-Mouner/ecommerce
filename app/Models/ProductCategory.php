@@ -32,6 +32,11 @@ class ProductCategory extends Model
         ];
     }
 
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
+
     public function parent()
     {
         return $this->hasOne( self::class, 'id', 'parent_id' );
@@ -44,14 +49,14 @@ class ProductCategory extends Model
 
     public function appearedChildren()
     {
-        return $this->hasMany( self::class, 'parent_id', 'id' )->whereStatus( TRUE );
+        return $this->hasMany( self::class, 'parent_id', 'id' )->Active();
     }
 
     public static function tree($level = 1)
     {
         return static::with( implode( '.', array_fill( 0, $level, 'children' ) ) )
             ->whereNull( 'parent_id' )
-            ->whereStatus( TRUE )
+            ->Active()
             ->orderBy( 'id', 'asc' )
             ->get();
     }
