@@ -17,16 +17,6 @@
                     <strong class="text-uppercase small font-weight-bold">Total</strong>
                     <span>{{ "$total EGP" }}</span>
                 </li>
-                <li>
-                    <form action="#">
-                        <div class="form-group mb-0">
-                            <input class="form-control" type="text" placeholder="Enter your coupon">
-                            <button class="btn btn-dark btn-sm btn-block" type="submit"><i
-                                        class="fas fa-gift mr-2"></i>Apply coupon
-                            </button>
-                        </div>
-                    </form>
-                </li>
             </ul>
         </div>
     </div>

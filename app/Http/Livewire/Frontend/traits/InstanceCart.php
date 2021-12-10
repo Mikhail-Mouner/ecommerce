@@ -22,8 +22,7 @@ trait InstanceCart
                 ->add( $product->id, $product->name, $qty, $product->price )
                 ->associate( Product::class );
 
-            $this->emit( 'updateCart' );
-            $this->sendSweetAlert( 'success', 'Product Added In Your ' . ucfirst( $instance ) . ' Successfully!' );
+            $this->emitUpdateCart( 'Product Added In Your ' . ucfirst( $instance ) . ' Successfully!' );
         }
     }
 
@@ -41,15 +40,22 @@ trait InstanceCart
     public function updateQtyCart($rowId, $qty)
     {
         Cart::instance( 'default' )->update( $rowId, $qty );
-        $this->emit( 'updateCart' );
+        $this->emitUpdateCart();
     }
 
     public function removeInstanceCart($instance, $rowId)
     {
         /** TODO::Fix the bug */
         Cart::instance( $instance )->remove( $rowId );
+        $this->emitUpdateCart( 'Remove Product From Your ' . ucfirst( $instance ) . ' Successfully!' );
+    }
+
+    public function emitUpdateCart($mssg = NULL, $type = 'success')
+    {
         $this->emit( 'updateCart' );
-        $this->sendSweetAlert( 'success', 'Remove Product From Your ' . ucfirst( $instance ) . ' Successfully!' );
+        if (!is_null( $mssg )) {
+            $this->sendSweetAlert( $type, $mssg );
+        }
     }
 
 }
