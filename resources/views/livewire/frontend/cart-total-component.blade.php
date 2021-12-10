@@ -9,6 +9,11 @@
                 </li>
                 <li class="border-bottom my-2"></li>
                 <li class="d-flex align-items-center justify-content-between mb-4">
+                    <strong class="text-uppercase small font-weight-bold">Tax</strong>
+                    <span>{{ "$cart_tax EGP" }}</span>
+                </li>
+                <li class="border-bottom my-2"></li>
+                <li class="d-flex align-items-center justify-content-between mb-4">
                     <strong class="text-uppercase small font-weight-bold">Total</strong>
                     <span>{{ "$total EGP" }}</span>
                 </li>
