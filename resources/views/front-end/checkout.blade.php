@@ -20,7 +20,6 @@
     </section>
     <section class="py-5">
         <!-- BILLING ADDRESS-->
-        <h2 class="h5 text-uppercase mb-4">Billing details</h2>
         <livewire:frontend.checkout-component />
     </section>
 @endsection

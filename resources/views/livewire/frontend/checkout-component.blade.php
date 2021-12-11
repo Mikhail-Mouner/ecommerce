@@ -1,126 +1,77 @@
 <div>
     <div class="row">
         <div class="col-lg-8">
-            <form action="#">
+            <h2 class="h5 text-uppercase mb-4">Shipping Addresses</h2>
+            <div class="row">
+                @forelse($addresses as $address)
+                    <div class="col-6 form-control-plaintext">
+                        <div class="custom-control custom-radio">
+                            <input type="radio"
+                                   wire:model="customer_address_id"
+                                   wire:click="updateShippingCompanies()"
+                                   name="customer_address"
+                                   {{ $customer_address_id == $address->id?'checked':NULL }}
+                                   id="{{ "address-{$address->id}" }}"
+                                   value="{{ $address->id }}"
+                                   class="custom-control-input"
+                            />
+                            <label for="{{ "address-{$address->id}" }}"
+                                   class="custom-control-label text-small">
+                                <small>
+                                    <span class="h5">{{ $address->address_title }}</span>
+                                    <br />
+                                    {{ $address->address }} {{ $address->address2?"-{$address->address2}":NULL }}
+                                    <br />
+                                    {{ $address->country->name }}
+                                    - {{ $address->state->name }}
+                                    - {{ $address->city->name }}
+                                    <br />
+                                    ZIP-CODE: {{ $address->zip_code }}
+                                </small>
+                            </label>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-md-12">
+                        <p>No Address Found</p>
+                        <a class="btn btn-outline-primary" href="#">Add an address</a>
+                    </div>
+                @endforelse
+            </div>
+
+            @if($customer_address_id != 0)
+                <h2 class="h5 text-uppercase mb-4">Shipping Way</h2>
                 <div class="row">
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="firstName">First name</label>
-                        <input class="form-control form-control-lg" id="firstName" type="text"
-                               placeholder="Enter your first name">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="lastName">Last name</label>
-                        <input class="form-control form-control-lg" id="lastName" type="text"
-                               placeholder="Enter your last name">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="email">Email address</label>
-                        <input class="form-control form-control-lg" id="email" type="email"
-                               placeholder="e.g. Jason@example.com">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="phone">Phone number</label>
-                        <input class="form-control form-control-lg" id="phone" type="tel"
-                               placeholder="e.g. +02 245354745">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="company">Company name (optional)</label>
-                        <input class="form-control form-control-lg" id="company" type="text"
-                               placeholder="Your company name">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="country">Country</label>
-                        <select class="selectpicker country" id="country" data-width="fit"
-                                data-style="form-control form-control-lg" data-title="Select your country"></select>
-                    </div>
-                    <div class="col-lg-12 form-group">
-                        <label class="text-small text-uppercase" for="address">Address line 1</label>
-                        <input class="form-control form-control-lg" id="address" type="text"
-                               placeholder="House number and street name">
-                    </div>
-                    <div class="col-lg-12 form-group">
-                        <label class="text-small text-uppercase" for="address">Address line 2</label>
-                        <input class="form-control form-control-lg" id="addressalt" type="text"
-                               placeholder="Apartment, Suite, Unit, etc (optional)">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="city">Town/City</label>
-                        <input class="form-control form-control-lg" id="city" type="text">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="text-small text-uppercase" for="state">State/County</label>
-                        <input class="form-control form-control-lg" id="state" type="text">
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" id="alternateAddressCheckbox" type="checkbox">
-                            <label class="custom-control-label text-small" for="alternateAddressCheckbox">Alternate
-                                                                                                          billing
-                                                                                                          address</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="row d-none" id="alternateAddress">
-                            <div class="col-12 mt-4">
-                                <h2 class="h4 text-uppercase mb-4">Alternative billing details</h2>
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="firstName2">First name</label>
-                                <input class="form-control form-control-lg" id="firstName2" type="text"
-                                       placeholder="Enter your first name">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="lastName2">Last name</label>
-                                <input class="form-control form-control-lg" id="lastName2" type="text"
-                                       placeholder="Enter your last name">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="email2">Email address</label>
-                                <input class="form-control form-control-lg" id="email2" type="email"
-                                       placeholder="e.g. Jason@example.com">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="phone2">Phone number</label>
-                                <input class="form-control form-control-lg" id="phone2" type="tel"
-                                       placeholder="e.g. +02 245354745">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="company2">Company name
-                                                                                        (optional)</label>
-                                <input class="form-control form-control-lg" id="company2" type="text"
-                                       placeholder="Your company name">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="country2">Country</label>
-                                <select class="selectpicker country" id="country2" data-width="fit"
-                                        data-style="form-control form-control-lg"
-                                        data-title="Select your country"></select>
-                            </div>
-                            <div class="col-lg-12 form-group">
-                                <label class="text-small text-uppercase" for="address2">Address line 1</label>
-                                <input class="form-control form-control-lg" id="address2" type="text"
-                                       placeholder="House number and street name">
-                            </div>
-                            <div class="col-lg-12 form-group">
-                                <label class="text-small text-uppercase" for="address2">Address line 2</label>
-                                <input class="form-control form-control-lg" id="addressalt2" type="text"
-                                       placeholder="Apartment, Suite, Unit, etc (optional)">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="city3">Town/City</label>
-                                <input class="form-control form-control-lg" id="city3" type="text">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="text-small text-uppercase" for="state4">State/County</label>
-                                <input class="form-control form-control-lg" id="state4" type="text">
+                    @forelse($shipping_companies as $shipping_company)
+                        <div class="col-6 form-control-plaintext">
+                            <div class="custom-control custom-radio">
+                                <input type="radio"
+                                       wire:model="shipping_company_id"
+                                       wire:click="updateShippingCost()"
+                                       name="shipping_company"
+                                       {{ $shipping_company_id == $shipping_company->id?'checked':NULL }}
+                                       id="{{ "shipping-company-{$shipping_company->id}" }}"
+                                       value="{{ $shipping_company->id }}"
+                                       class="custom-control-input"
+                                />
+                                <label for="{{ "shipping-company-{$shipping_company->id}" }}"
+                                       class="custom-control-label text-small">
+                                    <small>
+                                        <span class="h5">{{ $shipping_company->name }}</span>
+                                        <br />
+                                        {{ $shipping_company->description }} - {{ "({$shipping_company->cost} EGP)" }}
+                                    </small>
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 form-group">
-                        <button class="btn btn-dark" type="submit">Place order</button>
-                    </div>
+                    @empty
+                        <div class="col-md-12">
+                            <p>No Address Found</p>
+                        </div>
+                    @endforelse
                 </div>
-            </form>
+            @endif
+
         </div>
         <!-- ORDER SUMMARY-->
         <div class="col-lg-4">
@@ -137,6 +88,13 @@
                                 <strong class="small font-weight-bold">Discount
                                     <small>{{ session()->get('coupon')['code'] }}</small></strong>
                                 <span class="text-muted small">{{ "- $cart_discount EGP" }}</span></li>
+                            <li class="border-bottom my-2"></li>
+                        @endif
+                        @if(session()->has('shipping'))
+                            <li class="d-flex align-items-center justify-content-between">
+                                <strong class="small font-weight-bold">Discount
+                                    <small>{{ session()->get('shipping')['code'] }}</small></strong>
+                                <span class="text-muted small">{{ "+ $cart_shipping EGP" }}</span></li>
                             <li class="border-bottom my-2"></li>
                         @endif
                         <li class="d-flex align-items-center justify-content-between"><strong
