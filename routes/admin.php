@@ -40,6 +40,7 @@ Route::namespace( 'Backend' )
                     '/state' => "StateController",
                     '/city' => "CityController",
                     '/shipping_company' => "ShippingCompanyController",
+                    '/payment_method' => "PaymentMethodController",
                 ] );
 
                 //To Remove Photo of Category & User {customer, supervisor} (Given id)
