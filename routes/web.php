@@ -14,6 +14,7 @@ Route::namespace( 'Frontend' )
         Route::middleware( 'auth' )
             ->group( function () {
                 Route::get( '/checkout', "FrontendController@checkout" )->name( 'checkout' );
+                Route::post( '/checkout/payment', "PaymentController@checkoutPayment" )->name( 'checkout.payment' );
             } );
     } );
 

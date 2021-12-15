@@ -66,10 +66,55 @@
                         </div>
                     @empty
                         <div class="col-md-12">
-                            <p>No Address Found</p>
+                            <p>No Shipping Comapnies Found</p>
                         </div>
                     @endforelse
                 </div>
+            @endif
+
+            @if($customer_address_id != 0 && $shipping_company_id != 0)
+                <h2 class="h5 text-uppercase mb-4">Payment Way</h2>
+                <div class="row">
+                    @forelse($payment_methods as $payment_method)
+                        <div class="col-6 form-control-plaintext">
+                            <div class="custom-control custom-radio">
+                                <input type="radio"
+                                       wire:model="payment_method_id"
+                                       wire:click="updatePaymentMethod()"
+                                       name="payment_method"
+                                       {{ $payment_method_id == $payment_method->id?'checked':NULL }}
+                                       id="{{ "payment-method-{$payment_method->id}" }}"
+                                       value="{{ $payment_method->id }}"
+                                       class="custom-control-input"
+                                />
+                                <label for="{{ "payment-method-{$payment_method->id}" }}"
+                                       class="custom-control-label text-small">
+                                    <small>
+                                        <span class="h5">{{ $payment_method->name }}</span>
+                                        <br />
+                                        {{ $payment_method->code }} - {{ "({$payment_method->driver_name})" }}
+                                    </small>
+                                </label>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-md-12">
+                            <p>No Payment Way Found</p>
+                        </div>
+                    @endforelse
+                </div>
+            @endif
+            
+            @if($customer_address_id != 0 && $shipping_company_id != 0 && $payment_method_id != 0)
+                @if(Str::lower($payment_method_code) == 'ppex')
+                    <form action="{{ route('frontend.checkout.payment') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="customer_address_id" value="{{ old('customer_address_id',$customer_address_id) }}">
+                        <input type="hidden" name="shipping_company_id" value="{{ old('shipping_company_id',$shipping_company_id) }}">
+                        <input type="hidden" name="payment_method_id" value="{{ old('payment_method_id',$payment_method_id) }}">
+                        <button type="submit" class="btn btn-primary btn-sm btn-block">Continue to checkout with PayPal</button>
+                    </form>
+                @endif
             @endif
 
         </div>
@@ -92,7 +137,7 @@
                         @endif
                         @if(session()->has('shipping'))
                             <li class="d-flex align-items-center justify-content-between">
-                                <strong class="small font-weight-bold">Discount
+                                <strong class="small font-weight-bold">Shipping
                                     <small>{{ session()->get('shipping')['code'] }}</small></strong>
                                 <span class="text-muted small">{{ "+ $cart_shipping EGP" }}</span></li>
                             <li class="border-bottom my-2"></li>

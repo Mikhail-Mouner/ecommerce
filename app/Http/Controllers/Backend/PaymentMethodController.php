@@ -108,7 +108,7 @@ class PaymentMethodController extends Controller
             return redirect()->route( 'backend.index' );
         }
 
-        return view( 'back-end.payment_methods.edit' );
+        return view( 'back-end.payment_methods.edit' ,compact('payment_method') );
     }
 
     /**
