@@ -11,4 +11,20 @@ class PaymentController extends Controller
     {
         return $request;
     }
+
+    public function cancelPayment($order_id)
+    {
+        return $order_id;
+    }
+
+    public function completePayment($order_id)
+    {
+        return $order_id;
+    }
+
+    public function weebhook($order_id, $env)
+    {
+        return $order_id;
+    }
+
 }

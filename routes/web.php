@@ -15,6 +15,9 @@ Route::namespace( 'Frontend' )
             ->group( function () {
                 Route::get( '/checkout', "FrontendController@checkout" )->name( 'checkout' );
                 Route::post( '/checkout/payment', "PaymentController@checkoutPayment" )->name( 'checkout.payment' );
+                Route::get( '/checkout/{order_id}/cancel', "PaymentController@cancelPayment" )->name( 'checkout.cancel' );
+                Route::get( '/checkout/{order_id}/completed', "PaymentController@completePayment" )->name( 'checkout.complete' );
+                Route::get( '/checkout/weebhook/{order_id?}/{env?}', "PaymentController@weebhook" )->name( 'checkout.webhook.ipn' );
             } );
     } );
 
