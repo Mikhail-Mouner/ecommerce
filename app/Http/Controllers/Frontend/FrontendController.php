@@ -60,9 +60,6 @@ class FrontendController extends Controller
         return view( 'front-end.product', compact( [ 'product', 'related_products' ] ) );
     }
 
-    public function checkout()
-    {
-        return view( 'front-end.checkout' );
-    }
+
 
 }

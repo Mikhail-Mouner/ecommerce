@@ -14,6 +14,11 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function checkout()
+    {
+        return view( 'front-end.checkout' );
+    }
+
     public function checkoutPayment(Request $request)
     {
         $order = ( new OrderService() )->createOrder( $request->except( [ 'token', 'submit' ] ) );

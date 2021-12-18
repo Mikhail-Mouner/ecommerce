@@ -56,7 +56,7 @@
                                         class="fas fa-user-alt mr-1 text-gray"></i>{{ Auth::user()->full_name }}</a>
                             <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
                                 <a class="dropdown-item border-0 transition-link"
-                                   href="{{ route('frontend.index') }}">Profile</a>
+                                   href="{{ route('frontend.dashboard') }}">Profile</a>
                                 <a class="dropdown-item border-0 transition-link"
                                    href="{{ route('backend.index') }}">Admin</a>
 

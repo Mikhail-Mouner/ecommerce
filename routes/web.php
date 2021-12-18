@@ -13,11 +13,25 @@ Route::namespace( 'Frontend' )
 
         Route::middleware( 'auth' )
             ->group( function () {
-                Route::get( '/checkout', "FrontendController@checkout" )->name( 'checkout' );
+                Route::get( '/dashboard', "CustomerController@dashboard" )->name( 'dashboard' );
+
+                Route::name( 'customer.' )
+                    ->prefix( 'customer' )
+                    ->group( function () {
+                        Route::get( '/profile', "CustomerController@profile" )->name( 'profile' );
+                        Route::get( '/addresses', "CustomerController@addresses" )->name( 'addresses' );
+                        Route::get( '/orders', "CustomerController@orders" )->name( 'orders' );
+                    } );
+
+
+                Route::get( '/checkout', "PaymentController@checkout" )->name( 'checkout' );
                 Route::post( '/checkout/payment', "PaymentController@checkoutPayment" )->name( 'checkout.payment' );
-                Route::get( '/checkout/{order_id}/cancel', "PaymentController@cancelPayment" )->name( 'checkout.cancel' );
-                Route::get( '/checkout/{order_id}/completed', "PaymentController@completePayment" )->name( 'checkout.complete' );
-                Route::get( '/checkout/webhook/{order_id?}/{env?}', "PaymentController@weebhook" )->name( 'checkout.webhook.ipn' );
+                Route::get( '/checkout/{order_id}/cancel',
+                    "PaymentController@cancelPayment" )->name( 'checkout.cancel' );
+                Route::get( '/checkout/{order_id}/completed',
+                    "PaymentController@completePayment" )->name( 'checkout.complete' );
+                Route::get( '/checkout/webhook/{order_id?}/{env?}',
+                    "PaymentController@weebhook" )->name( 'checkout.webhook.ipn' );
             } );
     } );
 
