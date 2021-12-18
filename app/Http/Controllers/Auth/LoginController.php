@@ -64,6 +64,13 @@ class LoginController extends Controller
                 $request->session()->put( "cart.{$identifier}", $rows );
             } );
         }
+        session()->forget( [
+            'coupon',
+            'saved_shipping_company_id',
+            'saved_customer_address_id',
+            'saved_payment_method_id',
+            'shipping',
+        ] );
 
         /* Return original response*/
 

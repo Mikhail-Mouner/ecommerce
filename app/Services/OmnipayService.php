@@ -43,7 +43,7 @@ class OmnipayService
         return route( 'frontend.checkout.cancel', $order_id );
     }
 
-    public function getCompleteUrl($order_id)
+    public function getReturnUrl($order_id)
     {
         return route( 'frontend.checkout.complete', $order_id );
     }

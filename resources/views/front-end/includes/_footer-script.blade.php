@@ -10,6 +10,9 @@
 <script src="{{ asset('front-end/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js') }}"></script>
 <script src="{{ asset('front-end/js/front.js') }}"></script>
 
+{{--@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])--}}
+@include('sweetalert::alert')
+
 <livewire:scripts />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />
