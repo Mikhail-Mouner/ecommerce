@@ -19,6 +19,8 @@ Route::namespace( 'Frontend' )
                     ->prefix( 'customer' )
                     ->group( function () {
                         Route::get( '/profile', "CustomerController@profile" )->name( 'profile' );
+                        Route::put( '/profile', "CustomerController@updateProfile" )->name( 'update_profile' );
+                        Route::get( '/profile/remove-image', "CustomerController@removeProfileImage" )->name( 'profile.remove_image' );
                         Route::get( '/addresses', "CustomerController@addresses" )->name( 'addresses' );
                         Route::get( '/orders', "CustomerController@orders" )->name( 'orders' );
                     } );
