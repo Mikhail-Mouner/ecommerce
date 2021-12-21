@@ -20,6 +20,11 @@ class City extends Model
         ],
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
+    
     public function state(): BelongsTo
     {
         return $this->belongsTo( State::class );

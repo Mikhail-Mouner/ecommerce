@@ -20,6 +20,11 @@ class State extends Model
         ],
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
+    
     public function country(): BelongsTo
     {
         return $this->belongsTo( Country::class );

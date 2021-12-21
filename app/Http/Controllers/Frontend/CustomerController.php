@@ -17,6 +17,11 @@ class CustomerController extends Controller
         return view('front-end.customer.index');
     }
 
+    public function addresses()
+    {
+        return view('front-end.customer.addresses');
+    }
+    
     public function profile()
     {
         return view('front-end.customer.profile');
@@ -59,7 +64,7 @@ class CustomerController extends Controller
 
         return redirect()->route('frontend.customer.profile');
     }
-    
+
     public function removeImage()
     {
         $user = auth()->user();

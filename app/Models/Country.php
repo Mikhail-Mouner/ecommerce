@@ -18,6 +18,11 @@ class Country extends Model
             'countries.name' => 10,
         ],
     ];
+    
+    public function scopeActive($query)
+    {
+        return $query->whereStatus( TRUE );
+    }
 
     public function states(): HasMany
     {
