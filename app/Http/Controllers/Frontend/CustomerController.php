@@ -26,6 +26,11 @@ class CustomerController extends Controller
     {
         return view('front-end.customer.profile');
     }
+    
+    public function orders()
+    {
+        return view('front-end.customer.orders');
+    }
 
     public function updateProfile(ProfileRequest $request)
     {

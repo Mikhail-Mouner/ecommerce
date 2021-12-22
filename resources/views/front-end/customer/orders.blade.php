@@ -11,7 +11,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-lg-end mb-0 px-0">
                             <li class="breadcrumb-item"><a href="{{ route('frontend.index') }}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                            <li class="breadcrumb-item active" aria-current="page">Orders</li>
                         </ol>
                     </nav>
                 </div>
@@ -21,7 +21,7 @@
     <section class="py-5">
         <div class="row">
             <div class="col-md-8">
-                <h2 class="h5 text-uppercase mb-4">General Information</h2>
+                <livewire:frontend.customer.orders-component />
             </div>
             <div class="col-md-4">
                 @include('front-end.includes.customer._sidebar')

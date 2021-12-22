@@ -3,5 +3,6 @@
 return [
     "general_paginate" => 15,
     "general_order_by" => "asc",
-    "currency" => "USD"
+    "currency" => "USD",
+    "return_days" => 5
 ];
