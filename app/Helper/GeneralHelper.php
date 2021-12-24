@@ -8,28 +8,34 @@ function getParentShowOf()
     $route = str_replace( 'backend.', '', $current_page );
     $permission = 
         collect(
-            Cache::get( 'admin_side_menu' )->pluck('children')
-        )->where( 'as', $route )->first();
+            Cache::get( 'admin_side_menu' )->pluck('children')->flatten()
+        )->where( 'as', $route )->flatten()->first();
 
-    return $permission ? $permission->id : $route;
+    return $permission ? $permission['id'] : $route;
 }
 
 function getParentOf()
 {
     $current_page = \Route::currentRouteName();
     $route = str_replace( 'backend.', '', $current_page );
-    $permission = Cache::get( 'admin_side_menu' )->where( 'as', $route )->first();
+    $permission = 
+        collect(
+            Cache::get( 'admin_side_menu' )->pluck('children')->flatten()
+        )->where( 'as', $route )->flatten()->first();
 
-    return $permission ? $permission->parent : $route;
+    return $permission ? $permission['parent'] : $route;
 }
 
 function getParentIdOf()
 {
     $current_page = \Route::currentRouteName();
     $route = str_replace( 'backend.', '', $current_page );
-    $permission = Cache::get( 'admin_side_menu' )->where( 'as', $route )->first();
+    $permission = 
+        collect(
+            Cache::get( 'admin_side_menu' )->pluck('children')->flatten()
+        )->where( 'as', $route )->flatten()->first();
 
-    return $permission ? $permission->id : NULL;
+    return $permission ? $permission['id'] : NULL;
 }
 
 function getNumbers()
