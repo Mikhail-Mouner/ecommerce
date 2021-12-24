@@ -63,8 +63,8 @@ class Order extends Model
     const REJECTED = 4;
     const CANCELED = 5;
     const REFUNDED_REQUEST = 6;
-    const REFUNDED = 7;
-    const RETURNED = 8;
+    const RETURNED = 7;
+    const REFUNDED = 8;
 
     public function status()
     {

@@ -17,8 +17,8 @@
                         <option value="4" {{ old('status', request()->input('status')) == '4' ? 'selected' : NULL }}>REJECTED</option>
                         <option value="5" {{ old('status', request()->input('status')) == '5' ? 'selected' : NULL }}>CANCELED</option>
                         <option value="6" {{ old('status', request()->input('status')) == '6' ? 'selected' : NULL }}>REFUNDED REQUEST</option>
-                        <option value="7" {{ old('status', request()->input('status')) == '7' ? 'selected' : NULL }}>REFUNDED</option>
-                        <option value="8" {{ old('status', request()->input('status')) == '8' ? 'selected' : NULL }}>RETURNED</option>
+                        <option value="8" {{ old('status', request()->input('status')) == '7' ? 'selected' : NULL }}>RETURNED</option>
+                        <option value="7" {{ old('status', request()->input('status')) == '8' ? 'selected' : NULL }}>REFUNDED</option>
                     </select>
                 </div>
             </div>

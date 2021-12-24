@@ -67,7 +67,7 @@ class PaymentController extends Controller
             'transactionId' => $order->id,
             'currency' => $order->currency,
             'cancelUrl' => $omnipay->getCancelUrl( $order->id ),
-            'returnUrl' => $omnipay->getCompleteUrl( $order->id ),
+            'returnUrl' => $omnipay->getReturnUrl( $order->id ),
             'notifyUrl' => $omnipay->getNotifyUrl( $order->id ),
         ] );
 

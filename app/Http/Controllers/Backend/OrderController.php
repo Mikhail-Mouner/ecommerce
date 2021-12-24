@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\OrderRequest;
 use App\Models\Order;
+use App\Models\OrderTransaction;
+use App\Services\OmnipayService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -77,11 +79,14 @@ class OrderController extends Controller
             '1' => 'PAYMENT COMPLETED',
             '2' => 'UNDER PROCESS',
             '3' => 'FINISHED',
-            '7' => 'REFUNDED',
-            '8' => 'RETURNED',
+            '4' => 'REJECTED',
+            '5' => 'CANCELED',
+            '6' => 'REFUNDED REQUEST',
+            '7' => 'RETURNED',
+            '8' => 'REFUNDED',
         ];
         $key = array_search($order->order_status, array_keys($order_status_array));
-        
+
         foreach ($order_status_array as $k => $val) {
             if ($k <= $key) {
                 unset($order_status_array[$k]);
@@ -116,14 +121,41 @@ class OrderController extends Controller
         if (!auth()->user()->ability('admin', 'update_order')) {
             return redirect()->route('backend.index');
         }
+        
+        if ($request->order_status == Order::REFUNDED) {
+
+            $omnipay = new OmnipayService();
+            $response = $omnipay->refund([
+                'amount' => $order->total,
+                'transactionReference' => $order->transactions()->whereTransaction(Order::REFUNDED_REQUEST)->first()->transaction_no,
+                'cancelUrl' => $omnipay->getCancelUrl($order->id),
+                'returnUrl' => $omnipay->getReturnUrl($order->id),
+                'notifyUrl' => $omnipay->getNotifyUrl($order->id),
+            ]);
+
+            if ($response->isSuccessful()) {
+                $order->update([
+                    'order_status' => Order::REFUNDED,
+                ]);
+                $order->transactions()->create([
+                    'transaction' => OrderTransaction::REFUNDED,
+                    'transaction_no' => $response->getTransactionReference(),
+                    'payment_result' => 'success',
+                ]);
+
+            }
+            session()->flash('mssg', ['status' => 'success', 'data' => 'Refunded updated Successfully']);
+            return redirect()->back();
+        }
+
         $order->update([
             'order_status' => $request->order_status
         ]);
         $order->transactions()->create([
-            'transaction'=>$request->order_status,
+            'transaction' => $request->order_status,
         ]);
         session()->flash('mssg', ['status' => 'success', 'data' => 'Update Data Successfully']);
-
+        
         return redirect()->back();
     }
 
