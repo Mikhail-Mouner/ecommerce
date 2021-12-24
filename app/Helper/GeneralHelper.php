@@ -6,7 +6,10 @@ function getParentShowOf()
 {
     $current_page = \Route::currentRouteName();
     $route = str_replace( 'backend.', '', $current_page );
-    $permission = Cache::get( 'admin_side_menu' )->where( 'as', $route )->first();
+    $permission = 
+        collect(
+            Cache::get( 'admin_side_menu' )->pluck('children')
+        )->where( 'as', $route )->first();
 
     return $permission ? $permission->id : $route;
 }
