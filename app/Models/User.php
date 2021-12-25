@@ -61,6 +61,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ],
     ];
 
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User.'.$this->id;
+    }
+
     /**
      * @return string
      */

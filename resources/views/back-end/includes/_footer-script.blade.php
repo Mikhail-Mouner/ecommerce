@@ -5,6 +5,8 @@
 <!-- Core plugin JavaScript-->
 <script src="{{ asset('back-end/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
+<livewire:scripts />
+
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('back-end/js/sb-admin-2.min.js') }}"></script>
 

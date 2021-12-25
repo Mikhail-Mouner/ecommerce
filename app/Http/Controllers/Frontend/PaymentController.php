@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\OrderTransaction;
 use App\Models\Product;
 use App\Models\ProductCoupon;
+use App\Models\User;
+use App\Notifications\Frontend\Customer\OrderCreatedNotification;
 use App\Services\OmnipayService;
 use App\Services\OrderService;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -93,6 +95,13 @@ class PaymentController extends Controller
                 'saved_payment_method_id',
                 'shipping',
             ] );
+            
+            User::whereHas('roles',function ($q) {
+                return $q->whereIn('name',['admin','supervisor']);
+            })->each(function ($admin) use ($order) {
+                $admin->notify( new OrderCreatedNotification($order) );
+            });
+
             toast( 'Your recent payment is successful with reference code: ' . $response->getTransactionReference(),
                 'success' );
         }
