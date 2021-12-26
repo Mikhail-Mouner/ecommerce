@@ -9,6 +9,14 @@ class NotificationComponent extends Component
     public $unread_notification_count = 0;
     public $unread_notifications = null;
 
+    public function getListeners()
+    {
+        $user_id = auth()->id();
+        return [
+            "echo-notification:App.Models.User.{$user_id},notification" => 'mount'
+        ];
+    }
+
     public function mount()
     {
         $this->unread_notification_count = auth()->user()->unreadNotifications()->count();        

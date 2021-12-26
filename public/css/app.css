@@ -10022,7 +10022,7 @@ h3 {
   }
 }
 /*!
- * bootstrap-fileinput v5.2.6
+ * bootstrap-fileinput v5.2.7
  * http://plugins.krajee.com/file-input
  *
  * Krajee default styling for bootstrap-fileinput.
@@ -10256,11 +10256,6 @@ input[type=file].file-loading, .file-loading input[type=file] {
   width: 240px;
   height: 55px;
 }
-.krajee-default .file-preview-other-frame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .krajee-default .file-preview-text {
   display: block;
   color: #428bca;
@@ -10382,12 +10377,6 @@ input[type=file].file-loading, .file-loading input[type=file] {
 .file-zoom-dialog .btn-kv-next {
   right: 0;
 }
-.file-zoom-dialog .kv-zoom-caption {
-  max-width: 50%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 .file-zoom-dialog .kv-zoom-header {
   padding: 0.5rem;
 }
@@ -10494,6 +10483,10 @@ input[type=file].file-loading, .file-loading input[type=file] {
   z-index: 3000;
 }
 
+.kv-zoom-actions {
+  min-width: 140px;
+}
+
 .kv-zoom-actions .btn-kv {
   margin-left: 3px;
 }
@@ -10502,13 +10495,6 @@ input[type=file].file-loading, .file-loading input[type=file] {
   min-height: 300px;
   text-align: center;
   white-space: nowrap;
-}
-.file-zoom-content > * {
-  display: inline-block;
-  vertical-align: middle;
-}
-.file-zoom-content .kv-spacer {
-  height: 100%;
 }
 .file-zoom-content .file-preview-image {
   max-height: 100%;
@@ -10592,4 +10578,10 @@ input[type=file].file-loading, .file-loading input[type=file] {
   background-color: #d9edf7;
   border-color: #17a2b8;
   box-shadow: none;
+}
+
+.file-preview-other-frame, .file-preview-object, .kv-zoom-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
