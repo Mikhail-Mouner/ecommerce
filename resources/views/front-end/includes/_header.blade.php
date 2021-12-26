@@ -16,25 +16,6 @@
                     <li class="nav-item">
                         <!-- Link--><a class="nav-link" href="{{ route('frontend.shop') }}">Shop</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="pagesDropdown" href="#"
-                           data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">Pages</a>
-                        <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
-                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.index') }}">
-                                Homepage
-                            </a>
-                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.shop') }}">
-                                Category
-                            </a>
-                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.cart') }}">
-                                Shopping cart
-                            </a>
-                            <a class="dropdown-item border-0 transition-link" href="{{ route('frontend.checkout') }}">
-                                Checkout
-                            </a>
-                        </div>
-                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @guest
@@ -49,11 +30,16 @@
                     @else
                         <livewire:frontend.carts />
 
+                        <livewire:frontend.header.notification-component />
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"
                                data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false"><i
-                                        class="fas fa-user-alt mr-1 text-gray"></i>{{ Auth::user()->full_name }}</a>
+                               aria-expanded="false">
+                                <i class="fas fa-user-alt text-gray"></i>
+                                <span class="ml-2">
+                                    {{ Auth::user()->full_name }}
+                                </span>
+                            </a>
                             <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
                                 <a class="dropdown-item border-0 transition-link"
                                    href="{{ route('frontend.dashboard') }}">Profile</a>

@@ -1,1 +1,7 @@
-/* your styles go here */
+.navbar-nav .nav-item .nav-link .badge-counter {
+    position: absolute;
+    transform: scale(.7);
+    transform-origin: top right;
+    right: -0.25rem;
+    margin-top: -0.25rem;
+}

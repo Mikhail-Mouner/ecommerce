@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderTransaction;
+use App\Notifications\Backend\Orders\OrderNotification;
 use App\Services\OmnipayService;
 use Illuminate\Http\Request;
 
@@ -142,12 +143,13 @@ class OrderController extends Controller
                     'transaction_no' => $response->getTransactionReference(),
                     'payment_result' => 'success',
                 ]);
+                session()->flash('mssg', ['status' => 'success', 'data' => 'Refunded updated Successfully']);
 
+                $order->user()->first()->notify(new OrderNotification($order));
             }
-            session()->flash('mssg', ['status' => 'success', 'data' => 'Refunded updated Successfully']);
             return redirect()->back();
         }
-
+        
         $order->update([
             'order_status' => $request->order_status
         ]);
@@ -155,6 +157,8 @@ class OrderController extends Controller
             'transaction' => $request->order_status,
         ]);
         session()->flash('mssg', ['status' => 'success', 'data' => 'Update Data Successfully']);
+
+        $order->user()->first()->notify(new OrderNotification($order));
         
         return redirect()->back();
     }
