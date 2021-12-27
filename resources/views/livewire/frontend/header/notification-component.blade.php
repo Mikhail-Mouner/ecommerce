@@ -10,6 +10,22 @@
         </a>
         <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
             @forelse ($unread_notifications as $notification)
+                @if ($notification->type === 'App\Notifications\Frontend\Customer\OrderThanksNotification')
+                    <a class="dropdown-item d-flex align-items-center border-0 transition-link" wire:click.prevent="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['order_url'] }}">                    
+                        <div class="mr-3">
+                            <i class="fas fa-file-alt text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">{{ $notification->created_at->diffForHumans() }}</div>
+                            <span class="font-weight-light">
+                                Order ({{ $notification->data['order_ref'] }}) 
+                                <br />
+                                Completed Successfully
+                            </span>
+                        </div>
+                    </a>
+                
+                @else
                 <a class="dropdown-item d-flex align-items-center border-0 transition-link" wire:click.prevent="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['order_url'] }}">                    
                     <div class="mr-3">
                         <i class="fas fa-file-alt text-primary"></i>
@@ -24,6 +40,7 @@
                         </span>
                     </div>
                 </a>
+                @endif
             @empty
                     <h6 class="text-center text-warning">No Notification Found!</h4>
             @endforelse

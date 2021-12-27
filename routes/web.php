@@ -42,8 +42,3 @@ Route::namespace( 'Frontend' )
 Auth::routes( [ 'verify' => TRUE ] );
 
 Route::get( '/home', [ App\Http\Controllers\HomeController::class, 'index' ] )->name( 'home' );
-Route::get( '/test', function () {
-    return Cart::instance( 'wishlist' )->content();
-
-    return 'test';
-} );

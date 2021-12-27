@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductCoupon;
 use App\Models\User;
 use App\Notifications\Frontend\Customer\OrderCreatedNotification;
+use App\Notifications\Frontend\Customer\OrderThanksNotification;
 use App\Services\OmnipayService;
 use App\Services\OrderService;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -101,7 +102,14 @@ class PaymentController extends Controller
             })->each(function ($admin) use ($order) {
                 $admin->notify( new OrderCreatedNotification($order) );
             });
-
+            
+            $data = $order->toArray();
+            $data['currency_symbol'] = $order->currency;
+            $pdf = PDF::loadView('layouts.invoice', $data);
+            $save_file = storage_path('app/pdf/files/'.$order->ref_id.'.pdf');
+            $pdf->save($save_file);
+            auth()->user()->notify( new OrderThanksNotification($order,$save_file) );
+            
             toast( 'Your recent payment is successful with reference code: ' . $response->getTransactionReference(),
                 'success' );
         }
