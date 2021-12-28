@@ -82,6 +82,7 @@ class EntrustSeeder extends Seeder
             $role = Role::create( $roles_data[$index] );
             $user->attachRole( $role );
         }
+        /*
         for ($i = 0; $i < 10; $i++) {
             $user = User::create( [
                 'first_name' => $faker->firstName,
@@ -96,6 +97,8 @@ class EntrustSeeder extends Seeder
             ] );
             $user->attachRole( $role );
         }
+        */
+        User::factory()->count(1000)->hasAddresses(2)->create();
 
         /** Seed Permission  **/
         $permissions_data = [
