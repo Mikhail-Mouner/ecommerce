@@ -4,14 +4,34 @@
 ### _Developing By ♥ Mikhail_
 
 - [mikhaeelmouner@yahoo.com](mailto:mikhaeelmouner@yahoo.com)
+- [LinkedIn](http://linkedin.com/in/mikhail-mouner)
 - [+20 120 6111 051](tel:+201206111051)
 
 ### Installation
 
 ```sh
-git clone https://github.com/Mikhail-Mouner/ecommerce
+git clone https://github.com/Mikhail-Mouner/ecommerce.git
 ```
 
-### What you'll find in this project
+### What's the package that i has been used in this project
 
-- Coming Soon ...
+- ##### Backend
+    * beyondcode/laravel-websockets
+    * carlos-meneses/laravel-mpdf
+    * intervention/image
+    * intervention/imagecache
+    * livewire/livewire
+    * jantinnerezo/livewire-alert
+    * realrashid/sweet-alert
+    * league/omnipay
+    * mindscms/entrust
+    * mindscms/laravelshoppingcart
+    * nicolaslopezj/searchable
+    * omnipay/paypal
+    * predis/predis
+    * barryvdh/laravel-debugbar
+- ##### Frontend
+    * bootstrap-fileinput
+    * select2
+    * summernote
+    * alpinejs
